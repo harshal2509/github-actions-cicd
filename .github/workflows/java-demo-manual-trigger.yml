@@ -1,4 +1,4 @@
-name: Java CI/CD Demo Manual Deploy
+name: Java CI/CD Demo Manual Trigger
 
 on:
   workflow_dispatch:   # 👈 manual trigger only
