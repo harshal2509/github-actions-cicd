@@ -21,7 +21,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    environment: production   # <-- requires approval
+    environment: production   # <-- requires approvals
     steps:
       - name: Deploy dummy app
         run: echo "Deploying app..."
