@@ -3,7 +3,7 @@ name: Java CI/CD Demo
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
