@@ -1,0 +1,36 @@
+name: "Build Java WAR"
+description: "Builds a WAR file using Maven"
+inputs:
+  artifact_name:
+    description: "Final name of the WAR file"
+    required: true
+  pom_path:
+    description: "Path to pom.xml"
+    required: true
+outputs:
+  war_path:
+    description: "Path to the built WAR file"
+    value: ${{ steps.build.outputs.artifact-name }}
+runs:
+  using: "composite"
+  steps:
+    - name: Build WAR with Maven
+      run: |
+        echo "🔨 Building WAR using pom: ${{ inputs.pom_path }}"
+
+        mvn -f "${{ inputs.pom_path }}" clean package -DskipTests
+
+        # Find WAR file (usually in target/*.war)
+        WAR_FILE=$(find "$(dirname ${{ inputs.pom_path }})/target" -maxdepth 1 -name "*.war" | head -n 1)
+
+        echo "WAR built: $WAR_FILE"
+
+        # Rename to user-defined artifact name
+        FINAL_PATH="$(dirname $WAR_FILE)/${{ inputs.artifact_name }}.war"
+        mv "$WAR_FILE" "$FINAL_PATH"
+
+        echo "Final artifact path: $FINAL_PATH"
+
+        # Export as output
+        echo "war_path=$FINAL_PATH" >> $GITHUB_OUTPUT
+      shell: bash
