@@ -23,4 +23,4 @@ jobs:
     needs: build
     steps:
       - name: Deploy dummy app
-        run: echo "Deploying app..."
+        run: echo "Deploying java app..."
