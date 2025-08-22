@@ -18,10 +18,18 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
-  deploy:
+  UAT-Deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment: uat-test   # <-- requires approval
+    steps:
+      - name: Deploy dummy app
+        run: echo "Deploying app to uat env"
+  
+  Production-Deploy:
     runs-on: ubuntu-latest
     needs: build
     environment: production   # <-- requires approval
     steps:
       - name: Deploy dummy app
-        run: echo "Deploying app..."
+        run: echo "Deploying app to production env"
