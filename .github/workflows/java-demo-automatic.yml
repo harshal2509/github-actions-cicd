@@ -24,3 +24,4 @@ jobs:
     steps:
       - name: Deploy dummy app
         run: echo "Deploying java app..."
+#this is a comment
