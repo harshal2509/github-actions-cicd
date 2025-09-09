@@ -1,0 +1,24 @@
+name: Reusable Deploy Workflow
+
+on:
+  workflow_call:
+    inputs:
+      artifact-name:
+        required: true
+        type: string
+      target-artifact:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: ./artifact
+
+      - name: List artifact contents
+        run: ls -lh ./artifact/${{ inputs.target-artifact }}

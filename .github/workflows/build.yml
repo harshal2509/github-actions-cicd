@@ -1,0 +1,41 @@
+name: Reusable Build Workflow
+
+on:
+  workflow_call:
+    inputs:
+      artifact-name:
+        required: true
+        type: string
+      java-version:
+        required: true
+        type: string
+      java-distribution:
+        required: true
+        type: string
+      target-file:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ inputs.java-distribution }}
+          java-version: ${{ inputs.java-version }}
+
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
+
+      - name: Debug build outputs
+        run: ls -lh target/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: target/${{ inputs.target-file }}
